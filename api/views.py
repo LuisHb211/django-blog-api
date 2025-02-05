@@ -22,3 +22,10 @@ def blogList(request):
   blog = Blog.objects.all()
   serializer = BlogSerializer(blog, many=True)
   return Response(serializer.data)
+
+#In the blogDetail view, the many=False argument is used because this view is intended to handle a single Blog instance, not a list of instances.
+@api_view(['GET'])
+def blogDetail(request, pk):
+  blog = Blog.objects.get(id=pk)
+  serializer = BlogSerializer(blog, many=False)
+  return Response(serializer.data)
