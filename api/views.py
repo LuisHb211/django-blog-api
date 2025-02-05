@@ -29,3 +29,11 @@ def blogDetail(request, pk):
   blog = Blog.objects.get(id=pk)
   serializer = BlogSerializer(blog, many=False)
   return Response(serializer.data)
+
+@api_view(['POST'])
+def blogCreate(request):
+  serializer = BlogSerializer(data = request.data)
+  if serializer.is_valid():
+    serializer.save()
+  return Response(serializer.data)
+
