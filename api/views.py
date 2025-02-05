@@ -45,3 +45,8 @@ def blogUpdate(request, pk):
     serializer.save()
   return Response(serializer.data)
   
+@api_view(['DELETE'])
+def blogDelete(request, pk):
+  blog = Blog.objects.get(id=pk)
+  blog.delete()
+  return Response("Blog is succecssfuly delete!")
