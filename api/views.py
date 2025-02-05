@@ -27,7 +27,7 @@ def blogList(request):
 @api_view(['GET'])
 def blogDetail(request, pk):
   blog = Blog.objects.get(id=pk)
-  serializer = BlogSerializer(blog, many=False)
+  serializer = BlogSerializer(blog, many = False)
   return Response(serializer.data)
 
 @api_view(['POST'])
@@ -37,3 +37,11 @@ def blogCreate(request):
     serializer.save()
   return Response(serializer.data)
 
+@api_view(['POST'])
+def blogUpdate(request, pk):
+  blog = Blog.objects.get(id=pk)
+  serializer = BlogSerializer(instance = blog, data = request.data)
+  if serializer.is_valid():
+    serializer.save()
+  return Response(serializer.data)
+  
