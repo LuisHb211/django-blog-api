@@ -5,10 +5,37 @@ from django.http import HttpResponse
 from .models import Blog
 from .serializer import BlogSerializer
 
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework. response import Response
+from django.contrib.auth import authenticate
+from rest_framework import status
+
+
+@api_view(['POST'])
+def custom_auth_token(request):
+  description = {
+    'Api Login': 'token:'
+  }
+  
+  username = request.data.get('username')
+  password = request.data.get('password')
+  user = authenticate(username=username, password=password)
+  if user is not None:
+    token, created = Token.objects.get_or_create(user=user)
+    return Response({
+      'token': token.key,
+      'user_id': user.id, 
+      'email': user.email
+    })
+  else:
+    return Response({'error': 'Invalid Credentials!'}, status=status.HTTP_400_BAD_REQUEST)
+
 # Create your views here.
 @api_view(['GET'])
 def apiOverview(request):
   api_urls = {
+    'Api token': 'api-token-auth/',
     'List': 'api/blog-list/',
     'Detail View': 'api/blog-detail/<str:pk>/',
     'Create': 'api/blog-create/',

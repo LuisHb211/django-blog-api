@@ -8,5 +8,5 @@ urlpatterns = [
     path('blog-create/', views.blogCreate, name='blog-create'),
     path('blog-update/<str:pk>/', views.blogUpdate, name='blog-update'),
     path('blog-delete/<str:pk>/', views.blogDelete, name='blog-delete'),
-
+    path('api-token-auth/', views.custom_auth_token),
 ]
